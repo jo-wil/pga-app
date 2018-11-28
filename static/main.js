@@ -65,7 +65,7 @@ function renderPlayer({ current_position, player_bio, player_id, rounds, total, 
   var { country, first_name, last_name } = player_bio;
   return h("tr", { key: player_id }, [
     h("td", [current_position])
-  , h("td", [total || "0"])
+  , h("td", [total ? total.toString() : "0"])
   , h("td", [`${ first_name } ${ last_name }`])
   , h("td", [country || ""])
   , h("td", [fp.compose(
@@ -73,7 +73,7 @@ function renderPlayer({ current_position, player_bio, player_id, rounds, total, 
     , fp.map(fp.getOr("X", "strokes"))
     )(rounds)
   ])
-  , h("td", [total_strokes || "0"])
+  , h("td", [total_strokes ? total_strokes.toString() : "0"])
   ]);
 }
 
@@ -99,7 +99,8 @@ function renderTable(players) {
 
 function ordPlayer({ current_position, player_bio }) {
   var { first_name, last_name } = player_bio;
-  return `${ current_position }${ first_name } ${ last_name }`;
+  var currentPosition = current_position.replace("T","").padStart(3, "0");
+  return `${ currentPosition }${ first_name } ${ last_name }`;
 }
 
 // Main
